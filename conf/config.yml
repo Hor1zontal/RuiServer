@@ -1,0 +1,8 @@
+database:
+  address: 
+  name: rui_server
+
+http: :9000
+
+
+isCors: true
