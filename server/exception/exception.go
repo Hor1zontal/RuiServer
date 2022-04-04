@@ -22,11 +22,11 @@ var ErrorMapping = map[ErrorCode]string{
 	TimeParseError: "time parse error",
 }
 
-func GameExceptionCustom(api string, code ErrorCode, err error) {
-	log.Println(api+" -- code:%v --- error:%v", code, err)
-	GameException(code)
+func ExceptionCustom(api string, code ErrorCode, err error) {
+	log.Println(api + " --- code:" + string(code) + "--- error:" + err.Error())
+	exception(code)
 }
 
-func GameException(this ErrorCode) {
+func exception(this ErrorCode) {
 	panic(this)
 }

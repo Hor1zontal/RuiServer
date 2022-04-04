@@ -39,17 +39,8 @@ func structToMap(obj interface{}) gin.H {
 	return data
 }
 
-// 获取通过token解析出的用户信息字段
-//func GetClaimUser(c *gin.Context) *myjwt.CustomClaims {
-//	user := c.MustGet("claims")
-//	if user == nil {
-//		exception.GameException(exception.TokenInvalid)
-//	}
-//	return user.(*myjwt.CustomClaims)
-//}
-
 func CheckReq(c *gin.Context, req interface{}) {
 	if err := c.ShouldBind(req); err != nil {
-		exception.GameExceptionCustom("CheckReq", exception.InvalidParam, err)
+		exception.ExceptionCustomize("CheckReq", exception.InvalidParam, err)
 	}
 }

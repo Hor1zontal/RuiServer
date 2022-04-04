@@ -1,5 +1,5 @@
 database:
-  address: 
+  address: mongodb://admin:123456@121.4.219.39:27017/rui?authSource=rui
   name: rui_server
 
 http: :9000
