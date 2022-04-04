@@ -41,6 +41,12 @@ func structToMap(obj interface{}) gin.H {
 
 func CheckReq(c *gin.Context, req interface{}) {
 	if err := c.ShouldBind(req); err != nil {
-		exception.ExceptionCustomize("CheckReq", exception.InvalidParam, err)
+		exception.ExceptionCustom("CheckReq", exception.InvalidParam, err)
+	}
+}
+
+func FormatReq(c *gin.Context, req interface{}) {
+	if err := c.BindJSON(req); err != nil {
+		exception.ExceptionCustom("FormatReq", exception.InvalidParam, err)
 	}
 }
