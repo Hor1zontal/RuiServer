@@ -2,10 +2,13 @@ package http
 
 import (
 	"RuiServer/server/config"
+	"RuiServer/server/exception"
 	"RuiServer/server/module/game/http/api"
+	"RuiServer/server/module/game/http/helper"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
+	"runtime/debug"
 )
 
 func Init() {
@@ -13,7 +16,10 @@ func Init() {
 		log.Println("config.Server.HTTPAddress error!")
 		return
 	}
-	r := gin.Default()
+	r := gin.New()
+
+	r.Use(Recovery(), gin.Logger())
+
 	r.Use(cors())
 	r.POST("/web/doLogin", api.DoLogin)
 	r.GET("/web/user", api.WebUser)
@@ -51,3 +57,25 @@ func cors() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func Recovery() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				//log.Debug("error:%v",err)
+				switch err.(type) {
+				case exception.ErrorCode:
+					helper.ResponseWithCode(c, err.(exception.ErrorCode))
+				default:
+					log.Println(err, "--", string(debug.Stack()))
+					log.Println(err)
+					debug.PrintStack()
+					helper.ResponseWithCode(c, exception.InternalError)
+				}
+				c.Abort()
+			}
+		}()
+		c.Next()
+	}
+}
+

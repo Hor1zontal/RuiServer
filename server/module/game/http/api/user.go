@@ -1,9 +1,11 @@
 package api
 
 import (
+	"RuiServer/server/constant"
 	"RuiServer/server/module/game/http/helper"
 	"RuiServer/server/module/game/service"
 	"github.com/gin-gonic/gin"
+	"strconv"
 	"time"
 )
 
@@ -68,7 +70,13 @@ func WebStudentPersonalInfo(c *gin.Context) {
 func WebGetBoard(c *gin.Context) {
 	c.JSON(
 		200,
-		gin.H{"content": "this is content!!!"},
+		gin.H{
+			"id":        111,
+			"typeName":  "this is typeName",
+			"content":   "this is content!!!",
+			"title":     "this is title",
+			"published": true,
+		},
 	)
 }
 
@@ -117,15 +125,41 @@ func WebBoardType(c *gin.Context) {
 	)
 }
 
+type ReqWebStudentInfo struct {
+	ID              string `json:"id"`
+	Name            string `json:"name"`
+	PageNum         int    `json:"pageNum"`
+	PageSize        int    `json:"pageSize"`
+	SelectedAcademy string `json:"selectedAcademy"`
+	SelectedClass   string `json:"selectedClass"`
+	SelectedMajor   string `json:"selectedMajor"`
+	StartTime       string `json:"startTime"`
+	EndTime         string `json:"endTime"`
+}
+
 func WebStudentInfo(c *gin.Context) {
-	temp := &gin.H{"id": 10001, "name": "name"}
+	req := &ReqWebStudentInfo{}
+	helper.FormatReq(c, req)
+	total, users := service.GetUsersByQuery(req.ID, req.Name, req.SelectedAcademy, req.SelectedClass, req.SelectedMajor, req.StartTime, req.EndTime, req.PageNum, req.PageSize)
+
+	var listValue []gin.H
+	for _, user := range users {
+		listValue = append(listValue, gin.H{
+			"id":         strconv.Itoa(user.ID),
+			"name":       user.UserName,
+			"sex":        user.Sex,
+			"email":      user.Email,
+			"classes":    gin.H{"id": user.ClassID, "name": constant.ClassesMap[user.ClassID]},
+			"major":      gin.H{"id": user.MajorID, "name": constant.AcademyIDMajorMap[user.AcademyID][user.MajorID]},
+			"academy":    gin.H{"id": user.AcademyID, "name": constant.AcademyMap[user.AcademyID]},
+			"nation":     user.Nation,
+			"createTime": user.CreateTime.Local().Format("2006-01-02"),
+		})
+	}
 	c.JSON(
 		200, gin.H{
-			"list": []gin.H{
-				{"id": "10001", "name": "name1", "sex": "男", "email": "", "classes": temp, "major": temp, "academy": temp, "nation": "", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-				{"id": "10002", "name": "name2", "sex": "男", "email": "", "classes": temp, "major": temp, "academy": temp, "nation": "", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-				{"id": "10003", "name": "name3", "sex": "男", "email": "", "classes": temp, "major": temp, "academy": temp, "nation": "", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-			},
+			"list":  listValue,
+			"total": total,
 		},
 	)
 }
