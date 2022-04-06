@@ -1,1 +1,1 @@
-nohup ./rui > /usr/local/log/rui.log 2>&1 &
+nohup ./rui > ./rui.log 2>&1 &
