@@ -26,7 +26,7 @@ func Init() {
 	//r.LoadHTMLGlob("./dist/*.html")
 	//r.LoadHTMLFiles("static/*/*")
 	r.Static("/static", "./dist/static")
-	r.StaticFile("/login", "./dist/index.html")
+	r.StaticFile("/", "./dist/index.html")
 	r.StaticFile("/favicon.ico", "./dist/favicon.ico")
 	//r.GET("/login", func(context *gin.Context) {
 	//	context.HTML(http.StatusOK, "index.html", nil)
