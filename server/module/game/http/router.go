@@ -28,9 +28,9 @@ func Init() {
 	r.Static("/static", "./dist/static")
 	r.StaticFile("/login", "./dist/index.html")
 	r.StaticFile("/favicon.ico", "./dist/favicon.ico")
-	//r.GET("/login", func(context *gin.Context) {
-	//	context.HTML(http.StatusOK, "index.html", nil)
-	//})
+	r.GET("/", func(context *gin.Context) {
+		context.HTML(http.StatusOK, "index.html", nil)
+	})
 
 	r.Use(Recovery(), gin.Logger())
 
