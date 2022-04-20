@@ -30,7 +30,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&configPath, "config", "./conf/config.yml", "configuration path")
+	flag.StringVar(&configPath, "config", "./config.yml", "configuration path")
 	flag.Parse()
 
 }

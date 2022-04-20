@@ -1,9 +1,9 @@
-package api
+package handler
 
 import (
-	"RuiServer/server/constant"
-	"RuiServer/server/module/game/http/helper"
-	"RuiServer/server/module/game/service"
+	"RuiServer/router/helper"
+	"RuiServer/service"
+	"RuiServer/utils"
 	"github.com/gin-gonic/gin"
 	"strconv"
 	"time"
@@ -110,9 +110,20 @@ func WebInitBoard(c *gin.Context) {
 	})
 }
 
+type reqWebBoardType struct {
+	CurrPage int    `json:"currPage"`
+	PageSize int    `json:"pageSize"`
+	TypeName string `json:"typeName"`
+}
+
 func WebBoardType(c *gin.Context) {
+	req := reqWebBoardType{}
+	helper.FormatReq(c, req)
+	total, res := service.GetBoardByType(req.PageSize, req.CurrPage, req.TypeName)
+	helper.ResponseWithData(c, res)
 	c.JSON(
 		200, gin.H{
+			"total": total,
 			"list": []gin.H{
 				{"id": "10001", "title": "title", "createTime": time.Now().Format("2006-01-02 15:04:05")},
 				{"id": "10002", "title": "title", "createTime": time.Now().Format("2006-01-02 15:04:05")},
@@ -149,9 +160,9 @@ func WebStudentInfo(c *gin.Context) {
 			"name":       user.UserName,
 			"sex":        user.Sex,
 			"email":      user.Email,
-			"classes":    gin.H{"id": user.ClassID, "name": constant.ClassesMap[user.ClassID]},
-			"major":      gin.H{"id": user.MajorID, "name": constant.AcademyIDMajorMap[user.AcademyID][user.MajorID]},
-			"academy":    gin.H{"id": user.AcademyID, "name": constant.AcademyMap[user.AcademyID]},
+			"classes":    gin.H{"id": user.ClassID, "name": utils.ClassesMap[user.ClassID]},
+			"major":      gin.H{"id": user.MajorID, "name": utils.AcademyIDMajorMap[user.AcademyID][user.MajorID]},
+			"academy":    gin.H{"id": user.AcademyID, "name": utils.AcademyMap[user.AcademyID]},
 			"nation":     user.Nation,
 			"createTime": user.CreateTime.Local().Format("2006-01-02"),
 		})

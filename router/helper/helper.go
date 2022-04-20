@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"RuiServer/server/exception"
+	"RuiServer/exception"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"reflect"

@@ -1,13 +1,9 @@
 package main
 
 import (
-	"RuiServer/server/config"
-	"RuiServer/server/module/database"
-	"RuiServer/server/module/game"
+	"RuiServer/initialize"
 )
 
 func main() {
-	config.Init()
-	database.Init()
-	game.Init()
+	initialize.Init()
 }

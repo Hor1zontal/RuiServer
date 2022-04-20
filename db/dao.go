@@ -1,7 +1,7 @@
 package db
 
 import (
-	"RuiServer/server/exception"
+	"RuiServer/exception"
 	"go.mongodb.org/mongo-driver/bson"
 	"strconv"
 	"time"
@@ -62,10 +62,20 @@ func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, st
 		query["majorID"] = majorID
 	}
 	start_t, end_t := ParseStartEndTime(startTime, endTime)
-	AppendQuery(query, "createTime", start_t, end_t)
+	AppendTimeQuery(query, "createTime", start_t, end_t)
 	total := FindAll("user", query, PageNum, PageSize, &result)
 	return total, result
 }
+
+// -----------------------------board----------------------------------------
+func GetBoardByQuery(pageSize, currPage, boardType int) (int, []DBBoard) {
+	var result []DBBoard
+	query := make(bson.M)
+	query["boardType"] = boardType
+	total := FindAll("board", query, currPage, pageSize, &result)
+	return total, result
+}
+
 func ParseTime(timeStr string) time.Time {
 	t, err := time.ParseInLocation("2006-01-02", timeStr, time.Local)
 	if err != nil {
@@ -89,7 +99,7 @@ func ParseStartEndTime(time_start_string, time_end_string string) (time.Time, ti
 		time.Date(year_e, month_e, day_e, 23, 59, 59, 59, time_start.Location())
 }
 
-func AppendQuery(query bson.M, field string, start time.Time, end time.Time) {
+func AppendTimeQuery(query bson.M, field string, start time.Time, end time.Time) {
 	if query == nil {
 		query = make(bson.M)
 	}

@@ -1,10 +1,10 @@
-package http
+package router
 
 import (
-	"RuiServer/server/config"
-	"RuiServer/server/exception"
-	"RuiServer/server/module/game/http/api"
-	"RuiServer/server/module/game/http/helper"
+	"RuiServer/config"
+	"RuiServer/exception"
+	"RuiServer/router/handler"
+	"RuiServer/router/helper"
 	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
@@ -22,36 +22,42 @@ func Init() {
 	//		"message": "pong",
 	//	})
 	//})
-	//r.StaticFS("/", http.Dir("./dist"))
+	//r.StaticFS("/", router.Dir("./dist"))
 	//r.LoadHTMLGlob("./dist/*.html")
 	//r.LoadHTMLFiles("static/*/*")
-	r.Static("/static", "./dist/static")
-	r.StaticFile("/login", "./dist/index.html")
-	r.StaticFile("/favicon.ico", "./dist/favicon.ico")
-	r.GET("/", func(context *gin.Context) {
-		context.HTML(http.StatusOK, "index.html", nil)
-	})
+
+	//r.Static("/static", "./resource/dist/static")
+	//r.StaticFile("/login", "./resource/dist/index.html")
+	//r.StaticFile("/favicon.ico", "./resource/dist/favicon.ico")
+	//r.GET("/", func(context *gin.Context) {
+	//	context.HTML(http.StatusOK, "index.html", nil)
+	//})
 
 	r.Use(Recovery(), gin.Logger())
 
 	r.Use(cors())
-	r.POST("/web/doLogin", api.DoLogin)
-	r.POST("/web/init/courseInfo", api.WebInitCourseInfo)
-	r.POST("/web/studentInfo/upload", api.WebStudentInfoUpload)
-	r.POST("/web/student/info", api.WebStudentInfo)
+	r.POST("/web/doLogin", handler.DoLogin)
+	r.POST("/web/init/courseInfo", handler.WebInitCourseInfo)
 
-	r.GET("/web/user", api.WebUser)
-	r.GET("/web/changeBoard/published", api.WebChangeBoardPublished)
-	r.GET("/web/user/allRoles", api.WebUserAllRoles)
-	r.GET("/web/school/details", api.WebSchoolDetails)
-	r.GET("/web/student/personalInfo", api.WebStudentPersonalInfo)
-	r.GET("/web/init/board", api.WebInitBoard)
-	r.GET("/web/getBoard", api.WebGetBoard)
-	r.GET("/web/board/type", api.WebBoardType)
-	r.GET("/web/academy/initAll", api.WebAcademyInitAll)
-	r.GET("/web/major/initAll", api.WebMajorInitAll)
-	r.GET("/web/class/getByMajorId", api.WebClassGetByMajorId)
-	r.GET("/web/major/getByAcademyId", api.WebMajorGetByAcademyId)
+	r.POST("/web/studentInfo/upload", handler.WebStudentInfoUpload)
+	r.POST("/web/student/info", handler.WebStudentInfo)
+
+	r.GET("/web/user", handler.WebUser)
+
+	r.GET("/web/changeBoard/published", handler.WebChangeBoardPublished)
+	r.GET("/web/init/board", handler.WebInitBoard)
+	r.GET("/web/getBoard", handler.WebGetBoard)
+	r.GET("/web/board/type", handler.WebBoardType)
+
+	r.GET("/web/user/allRoles", handler.WebUserAllRoles)
+	r.GET("/web/school/details", handler.WebSchoolDetails)
+	r.GET("/web/student/personalInfo", handler.WebStudentPersonalInfo)
+
+	r.GET("/web/academy/initAll", handler.WebAcademyInitAll)
+	r.GET("/web/class/getByMajorId", handler.WebClassGetByMajorId)
+
+	r.GET("/web/major/initAll", handler.WebMajorInitAll)
+	r.GET("/web/major/getByAcademyId", handler.WebMajorGetByAcademyId)
 
 	r.Run("0.0.0.0:9000") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

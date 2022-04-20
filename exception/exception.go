@@ -12,6 +12,7 @@ const (
 	DatabaseError            = 10002 //数据库操作异常
 	InternalError            = 10003 //内部异常
 	TimeParseError           = 10004 //时间格式错误
+	GetBoardError            = 10005
 )
 
 var ErrorMapping = map[ErrorCode]string{
@@ -20,6 +21,7 @@ var ErrorMapping = map[ErrorCode]string{
 	DatabaseError:  "database error",
 	InternalError:  "internal error",
 	TimeParseError: "time parse error",
+	GetBoardError:  "get board error",
 }
 
 func ExceptionCustom(api string, code ErrorCode, err error) {

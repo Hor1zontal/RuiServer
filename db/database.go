@@ -1,8 +1,8 @@
 package db
 
 import (
-	"RuiServer/server/config"
-	"RuiServer/server/exception"
+	"RuiServer/config"
+	"RuiServer/exception"
 	"context"
 	"github.com/qiniu/qmgo"
 	"go.mongodb.org/mongo-driver/bson"
