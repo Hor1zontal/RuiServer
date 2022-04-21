@@ -15,12 +15,29 @@ type resBoard struct {
 
 func GetBoardByType(pageSize, currPage int, typeName string) (int, interface{}) {
 	var res []resBoard
-	total, boards := db.GetBoardByQuery(pageSize, currPage, typeName)
+	total, boards := db.GetBoardByQuery(pageSize, currPage, typeName, "")
+	if total != 0 {
+		res = packResBoards(boards)
+	}
+	return total, res
+}
+
+func packResBoards(boards []db.DBBoard) []resBoard {
+	var res []resBoard
 	for _, v := range boards {
 		tmp := resBoard{v.ID, v.Title, v.Content,
 			v.CreateTime.Local().Format("2006-01-02"),
 			v.TypeName, v.Published}
 		res = append(res, tmp)
+	}
+	return res
+}
+
+func GetBoardByTitle(pageSize, currPage int, title string) (int, interface{}) {
+	var res []resBoard
+	total, boards := db.GetBoardByQuery(pageSize, currPage, "", title)
+	if total != 0 {
+		res = packResBoards(boards)
 	}
 	return total, res
 }

@@ -86,10 +86,15 @@ func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, st
 }
 
 // -----------------------------board----------------------------------------
-func GetBoardByQuery(pageSize, currPage int, boardType string) (int, []DBBoard) {
+func GetBoardByQuery(pageSize, currPage int, boardType, title string) (int, []DBBoard) {
 	result := []DBBoard{}
 	query := make(bson.M)
-	query["typeName"] = boardType
+	if boardType != "" {
+		query["typeName"] = boardType
+	}
+	if title != "" {
+		query["title"] = title
+	}
 	total := FindAll("board", query, currPage, pageSize, &result)
 	return total, result
 }

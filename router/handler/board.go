@@ -42,17 +42,23 @@ func WebChangeBoardPublished(c *gin.Context) {
 	//改变publish的值
 }
 
+type reqInitBoard struct {
+	Title    string `form:"keyword"`
+	CurrPage int    `form:"currPage"`
+	PageSize int    `form:"pageSize"`
+}
+
+type resInitBoard struct {
+	Total int         `json:"total"`
+	List  interface{} `json:"list"`
+}
+
 func WebInitBoard(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"list": []gin.H{
-			{"typeName": "typeName",
-				"title":      "title",
-				"published":  true, //
-				"creatTime":  "createTime",
-				"updateTime": "updateTime",
-			},
-		},
-	})
+	req := &reqInitBoard{}
+	helper.CheckReq(c, req)
+	res := &resInitBoard{}
+	res.Total, res.List = service.GetBoardByTitle(req.PageSize, req.CurrPage, req.Title)
+	helper.ResponseWithData(c, res)
 }
 
 type reqWebBoardType struct {
@@ -71,7 +77,6 @@ func WebBoardType(c *gin.Context) {
 	helper.CheckReq(c, req)
 	res := &resWebBoardType{}
 	res.Total, res.List = service.GetBoardByType(req.PageSize, req.CurrPage, req.TypeName)
-
 	helper.ResponseWithData(c, res)
 	//c.JSON(
 	//	200, gin.H{
