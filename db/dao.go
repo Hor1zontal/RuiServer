@@ -35,6 +35,24 @@ func GetUser(IDCard string) *DBUser {
 	return result
 }
 
+func NewBoard(content, title, typeName string, published bool) *DBBoard {
+	id, err := GenId("board")
+	if err != nil {
+		exception.ExceptionCustom("GenID", exception.DatabaseError, err)
+	}
+	board := &DBBoard{
+		ID:         int(id),
+		Title:      title,
+		TypeName:   typeName,
+		Content:    content,
+		Published:  published,
+		CreateTime: time.Now(),
+	}
+
+	InsertOne("board", board)
+	return board
+}
+
 //id：是学工号，客户端传过来是string，在服务端是int自增的，传回客户端的时候记得转成字符串
 func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, startTime, endTime string, PageNum, PageSize int /*pageNum和pageSize必传*/) (int, []*DBUser) {
 	var result []*DBUser
@@ -68,10 +86,10 @@ func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, st
 }
 
 // -----------------------------board----------------------------------------
-func GetBoardByQuery(pageSize, currPage, boardType int) (int, []DBBoard) {
-	var result []DBBoard
+func GetBoardByQuery(pageSize, currPage int, boardType string) (int, []DBBoard) {
+	result := []DBBoard{}
 	query := make(bson.M)
-	query["boardType"] = boardType
+	query["typeName"] = boardType
 	total := FindAll("board", query, currPage, pageSize, &result)
 	return total, result
 }

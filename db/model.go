@@ -22,6 +22,12 @@ type DBCourse struct {
 }
 
 type DBBoard struct {
+	ID         int       `bson:"_id" json:"id"`
+	Title      string    `bson:"title" json:"title"`
+	Content    string    `bson:"content"json:"content"`
+	CreateTime time.Time `bson:"createTime" json:"createTime"`
+	TypeName   string    `bson:"typeName" json:"typeName"`
+	Published  bool      `bson:"published" json:"published"`
 }
 
 //

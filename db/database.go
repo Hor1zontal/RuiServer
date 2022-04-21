@@ -15,6 +15,7 @@ var collectionName = []string{
 	"user",
 	"role",
 	"course",
+	"board",
 }
 
 var collectionMap = make(map[string]*qmgo.Collection)

@@ -48,6 +48,7 @@ func Init() {
 	r.GET("/web/init/board", handler.WebInitBoard)
 	r.GET("/web/getBoard", handler.WebGetBoard)
 	r.GET("/web/board/type", handler.WebBoardType)
+	r.POST("/web/add/board", handler.WebAddBoard)
 
 	r.GET("/web/user/allRoles", handler.WebUserAllRoles)
 	r.GET("/web/school/details", handler.WebSchoolDetails)

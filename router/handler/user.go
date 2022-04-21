@@ -6,7 +6,6 @@ import (
 	"RuiServer/utils"
 	"github.com/gin-gonic/gin"
 	"strconv"
-	"time"
 )
 
 func DoLogin(c *gin.Context) {
@@ -33,7 +32,7 @@ type ReqWebStudentInfoUpload struct {
 
 func WebStudentInfoUpload(c *gin.Context) {
 	req := &ReqWebStudentInfoUpload{}
-	helper.FormatReq(c, req)
+	helper.CheckReq(c, req)
 	service.UploadUser(req.Name, req.Sex, req.Email, req.CreateTime, req.IDCard, req.ClassID, req.MajorID, req.AcademyID, req.Age)
 	c.JSON(200, gin.H{})
 	//println(req.Age)
@@ -67,75 +66,6 @@ func WebStudentPersonalInfo(c *gin.Context) {
 
 }
 
-func WebGetBoard(c *gin.Context) {
-	c.JSON(
-		200,
-		gin.H{
-			"id":        111,
-			"typeName":  "this is typeName",
-			"content":   "this is content!!!",
-			"title":     "this is title",
-			"published": true,
-		},
-	)
-}
-
-func WebInitCourseInfo(c *gin.Context) {
-	//1必修 2 选修 3 公选
-	temp := gin.H{"id": 10001, "status": 1, "academy": gin.H{"id": 10001, "name": "academyName"}, "credit": 99, "total": 11, "period": 11, "createTime": "createTime", "updateTime": "createTime", "name": "courseName"}
-	temp1 := gin.H{"id": 10002, "status": 2, "academy": gin.H{"id": 10002, "name": "academyName"}, "credit": 99, "total": 11, "period": 11, "createTime": "createTime", "updateTime": "createTime", "name": "courseName"}
-	c.JSON(200, gin.H{
-		"list": []gin.H{
-			temp,
-			temp1,
-		},
-		"total": 2,
-	})
-}
-
-func WebChangeBoardPublished(c *gin.Context) {
-	//改变publish的值
-}
-
-func WebInitBoard(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"list": []gin.H{
-			{"typeName": "typeName",
-				"title":      "title",
-				"published":  true, //
-				"creatTime":  "createTime",
-				"updateTime": "updateTime",
-			},
-		},
-	})
-}
-
-type reqWebBoardType struct {
-	CurrPage int    `json:"currPage"`
-	PageSize int    `json:"pageSize"`
-	TypeName string `json:"typeName"`
-}
-
-func WebBoardType(c *gin.Context) {
-	req := reqWebBoardType{}
-	helper.FormatReq(c, req)
-	total, res := service.GetBoardByType(req.PageSize, req.CurrPage, req.TypeName)
-	helper.ResponseWithData(c, res)
-	c.JSON(
-		200, gin.H{
-			"total": total,
-			"list": []gin.H{
-				{"id": "10001", "title": "title", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-				{"id": "10002", "title": "title", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-				{"id": "10003", "title": "title", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-				{"id": "10004", "title": "title", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-				{"id": "10005", "title": "title", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-				{"id": "10006", "title": "title", "createTime": time.Now().Format("2006-01-02 15:04:05")},
-			},
-		},
-	)
-}
-
 type ReqWebStudentInfo struct {
 	ID              string `json:"id"`
 	Name            string `json:"name"`
@@ -150,7 +80,7 @@ type ReqWebStudentInfo struct {
 
 func WebStudentInfo(c *gin.Context) {
 	req := &ReqWebStudentInfo{}
-	helper.FormatReq(c, req)
+	helper.CheckReq(c, req)
 	total, users := service.GetUsersByQuery(req.ID, req.Name, req.SelectedAcademy, req.SelectedClass, req.SelectedMajor, req.StartTime, req.EndTime, req.PageNum, req.PageSize)
 
 	var listValue []gin.H

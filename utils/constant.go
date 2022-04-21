@@ -28,11 +28,6 @@ var AcademyIDMajorMap = map[int]map[int]string{
 	7: {1: "经济管理学院专业1", 2: "经济管理学院专业2"},
 }
 
-var BoardTypeMap = map[string]int{
-	"教务通知公告": 1,
-	"教务系统公告": 2,
-}
-
 const (
 	name int = 0
 )
