@@ -2,9 +2,15 @@ package db
 
 import (
 	"RuiServer/exception"
+	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"strconv"
 	"time"
+)
+
+const (
+	role_admin   = 1
+	role_student = 2
 )
 
 func NewUser(username, sex, email, createTime, IDCard string, classID, majorID, academyID, age int) *DBUser {
@@ -22,6 +28,8 @@ func NewUser(username, sex, email, createTime, IDCard string, classID, majorID, 
 		MajorID:    majorID,
 		AcademyID:  academyID,
 		Age:        age,
+		Status:     role_student,
+		Enabled:    true,
 		CreateTime: ParseTime(createTime),
 	}
 
@@ -29,10 +37,26 @@ func NewUser(username, sex, email, createTime, IDCard string, classID, majorID, 
 	return user
 }
 
-func GetUser(IDCard string) *DBUser {
+func GetUser(ID string) *DBUser {
 	result := &DBUser{}
-	FindOne("user", bson.M{"IDCard": IDCard}, result)
+	id, _ := strconv.Atoi(ID)
+	err := FindOne("user", bson.M{"_id": id}, result)
+	if err != nil {
+		exception.ExceptionCustom("GenID", exception.DatabaseError, err)
+	}
 	return result
+}
+
+func (user *DBUser) PackLoginRes() gin.H {
+	res := gin.H{
+		"user": gin.H{
+			"avatar":      user.Avatar, //头像
+			"status":      user.Status,
+			"description": user.Description,
+			//"role":        user.Role, //1-超级管理员 2--学生
+		},
+	}
+	return res
 }
 
 func NewBoard(content, title, typeName string, published bool) *DBBoard {

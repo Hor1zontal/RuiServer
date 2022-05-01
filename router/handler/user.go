@@ -8,14 +8,25 @@ import (
 	"strconv"
 )
 
+type ReqDoLogin struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
 func DoLogin(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"user": gin.H{
-			"avatar":      "", //头像
-			"status":      1,  //1-超级管理员 2--学生
-			"description": "",
-		},
-	})
+
+	req := &ReqDoLogin{}
+	helper.FormatReq(c, req)
+	user := service.GetUser(req.Username)
+	//c.JSON(200, gin.H{
+	//	"user": gin.H{
+	//		"avatar":      "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png", //头像
+	//		"status":      1,
+	//		"description": "",
+	//		"role":        1, //1-超级管理员 2--学生
+	//	},
+	//})
+	c.JSON(200, user)
 }
 
 type ReqWebStudentInfoUpload struct {
@@ -48,6 +59,15 @@ func WebUser(c *gin.Context) {
 				"sex":      "男",
 				"phoneNum": "123456789",
 				"enabled":  true,
+				"avatar":   "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png",
+			},
+			{
+				"name":     "睿子", //
+				"id":       2,    //1-超级管理员 2--学生
+				"sex":      "女",
+				"phoneNum": "123456789",
+				"enabled":  true,
+				"avatar":   "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png",
 			},
 		},
 		"total": 2,
