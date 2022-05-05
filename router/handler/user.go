@@ -86,6 +86,18 @@ func WebStudentPersonalInfo(c *gin.Context) {
 
 }
 
+type ReqWebStudentPersonalCourses struct {
+	ID string `form:"id"` //学生id
+}
+
+func WebStudentPersonalCourses(c *gin.Context) {
+	req := &ReqWebStudentPersonalCourses{}
+	helper.CheckReq(c, req)
+	id, _ := strconv.Atoi(req.ID)
+	res := service.GetUserCourses(id)
+	c.JSON(200, res)
+}
+
 type ReqWebStudentInfo struct {
 	ID              string `json:"id"`
 	Name            string `json:"name"`

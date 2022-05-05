@@ -53,31 +53,15 @@ func (user *DBUser) PackLoginRes() gin.H {
 			"avatar":      user.Avatar, //头像
 			"status":      user.Status,
 			"description": user.Description,
+			"id":          user.ID,
 			//"role":        user.Role, //1-超级管理员 2--学生
 		},
 	}
 	return res
 }
 
-func NewBoard(content, title, typeName string, published bool) *DBBoard {
-	id, err := GenId("board")
-	if err != nil {
-		exception.ExceptionCustom("GenID", exception.DatabaseError, err)
-	}
-	board := &DBBoard{
-		ID:         int(id),
-		Title:      title,
-		TypeName:   typeName,
-		Content:    content,
-		Published:  published,
-		CreateTime: time.Now(),
-	}
-
-	InsertOne("board", board)
-	return board
-}
-
 //id：是学工号，客户端传过来是string，在服务端是int自增的，传回客户端的时候记得转成字符串
+
 func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, startTime, endTime string, PageNum, PageSize int /*pageNum和pageSize必传*/) (int, []*DBUser) {
 	var result []*DBUser
 
@@ -109,7 +93,35 @@ func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, st
 	return total, result
 }
 
+func GetUserResults(id int) interface{} {
+	results := &DBResults{}
+	err := FindOne("result", bson.M{"userID": id}, results)
+	if err != nil {
+		exception.ExceptionCustom("GetUserResults", exception.DatabaseError, err)
+	}
+	return results
+}
+
 // -----------------------------board----------------------------------------
+
+func NewBoard(content, title, typeName string, published bool) *DBBoard {
+	id, err := GenId("board")
+	if err != nil {
+		exception.ExceptionCustom("GenID", exception.DatabaseError, err)
+	}
+	board := &DBBoard{
+		ID:         int(id),
+		Title:      title,
+		TypeName:   typeName,
+		Content:    content,
+		Published:  published,
+		CreateTime: time.Now(),
+	}
+
+	InsertOne("board", board)
+	return board
+}
+
 func GetBoardByQuery(pageSize, currPage int, boardType, title string) (int, []DBBoard) {
 	result := []DBBoard{}
 	query := make(bson.M)

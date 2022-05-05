@@ -53,6 +53,7 @@ func Init() {
 	r.GET("/web/user/allRoles", handler.WebUserAllRoles)
 	r.GET("/web/school/details", handler.WebSchoolDetails)
 	r.GET("/web/student/personalInfo", handler.WebStudentPersonalInfo)
+	r.GET("/web/student/personalCourses", handler.WebStudentPersonalCourses)
 
 	r.GET("/web/academy/initAll", handler.WebAcademyInitAll)
 	r.GET("/web/class/getByMajorId", handler.WebClassGetByMajorId)

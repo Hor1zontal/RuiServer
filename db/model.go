@@ -18,11 +18,28 @@ type DBUser struct {
 	Avatar      string    `bson:"avatar"`      //头像
 	Description string    `bson:"description"` //描述
 	Enabled     bool      `bson:"enabled"`     //封禁状态  1--可用  0--封禁
+	//Courses     []int     `bson:"courses"`     //选的课的ID
+
+}
+
+type DBResults struct {
+	UserID  int       `bson:"userID" json:"userID"`   //学工号
+	Results []DBScore `bson:"results" json:"results"` //所选的课以及课程的成绩
+}
+
+type DBScore struct {
+	CourseID int `bson:"courseID" json:"courseID"`
+	Score    int `bson:"score" json:"score"` //成绩
 }
 
 type DBCourse struct {
-	CourseID   int    `bson:"courseID"`   //课程ID
-	CourseName string `bson:"courseName"` //课程名
+	CourseID        int       `bson:"courseID"`        //课程ID
+	CourseName      string    `bson:"courseName"`      //课程名
+	CourseFlag      bool      `bson:"courseFlag"`      //
+	StartTime       time.Time `bson:"startTime"`       //开始选课时间
+	EndTime         time.Time `bson:"endTime"`         //结束选课时间
+	SelectStudentID []int     `bson:"selectStudentID"` //选择该课的学生ID
+	TotalCount      int       `bson:"totalCount"`      //该课可选的最大个数
 }
 
 type DBBoard struct {

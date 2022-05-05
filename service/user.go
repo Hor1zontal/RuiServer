@@ -22,3 +22,7 @@ const (
 func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, startTime, endTime string, PageNum, PageSize int) (int, []*db.DBUser) {
 	return db.GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, startTime, endTime, PageNum, PageSize)
 }
+
+func GetUserCourses(ID int) interface{} {
+	return db.GetUserResults(ID)
+}
