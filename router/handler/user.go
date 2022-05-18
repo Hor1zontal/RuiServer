@@ -54,23 +54,31 @@ func WebUser(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"list": []gin.H{
 			{
-				"name":     "邓飞宇", //
-				"id":       1,     //1-超级管理员 2--学生
-				"sex":      "男",
-				"phoneNum": "123456789",
+				"name":     "彭欣怡", //
+				"id":       10009, //1-超级管理员 2--学生
+				"sex":      "女",
+				"phoneNum": "1175952275@qq.com",
 				"enabled":  true,
 				"avatar":   "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png",
 			},
 			{
-				"name":     "睿子", //
-				"id":       2,    //1-超级管理员 2--学生
-				"sex":      "女",
-				"phoneNum": "123456789",
+				"name":     "邓飞",  //
+				"id":       10010, //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "dengfei@qq.com",
+				"enabled":  true,
+				"avatar":   "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png",
+			},
+			{
+				"name":     "test2", //
+				"id":       10008,   //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "222222222@qq.com",
 				"enabled":  true,
 				"avatar":   "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png",
 			},
 		},
-		"total": 2,
+		"total": 3,
 	})
 }
 

@@ -93,7 +93,7 @@ func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, st
 	return total, result
 }
 
-func GetUserResults(id int) interface{} {
+func GetUserResults(id int) *DBResults {
 	results := &DBResults{}
 	err := FindOne("result", bson.M{"userID": id}, results)
 	if err != nil {
@@ -163,4 +163,10 @@ func AppendTimeQuery(query bson.M, field string, start time.Time, end time.Time)
 		query = make(bson.M)
 	}
 	query[field] = bson.M{"$gte": start, "$lte": end}
+}
+
+func GetCourseName(id int) string {
+	course := &DBCourse{}
+	FindOne("course", bson.M{"courseID": id}, course)
+	return course.CourseName
 }

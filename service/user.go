@@ -3,6 +3,7 @@ package service
 import (
 	"RuiServer/db"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 func UploadUser(username, sex, email, createTime, IDCard string, ClassID, MajorID, AcademyID, Age int) {
@@ -24,5 +25,28 @@ func GetUsersByQuery(ID, Name, SelectedAcademy, SelectedClass, SelectedMajor, st
 }
 
 func GetUserCourses(ID int) interface{} {
-	return db.GetUserResults(ID)
+	var res []resResult
+	results := db.GetUserResults(ID)
+	user := db.GetUser(strconv.Itoa(ID))
+	for _, v := range results.Results {
+		tmp := resResult{
+			UserID:     user.ID,
+			Name:       user.UserName,
+			CourseName: GetCourseName(v.CourseID),
+			Score:      v.Score,
+		}
+		res = append(res, tmp)
+	}
+	return res
+}
+
+type resResult struct {
+	UserID     int    `json:"userID"`
+	Name       string `json:"name"`
+	CourseName string `json:"courseName"`
+	Score      int    `json:"score"`
+}
+
+func GetCourseName(ID int) string {
+	return db.GetCourseName(ID)
 }
