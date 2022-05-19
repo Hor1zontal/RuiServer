@@ -4,6 +4,7 @@ import (
 	"RuiServer/exception"
 	"RuiServer/router/helper"
 	"RuiServer/service"
+	"RuiServer/utils"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,14 +23,20 @@ func WebGetBoard(c *gin.Context) {
 
 func WebInitCourseInfo(c *gin.Context) {
 	//1必修 2 选修 3 公选
-	temp := gin.H{"id": 10001, "status": 1, "academy": gin.H{"id": 10001, "name": "academyName"}, "credit": 99, "total": 11, "period": 11, "createTime": "createTime", "updateTime": "createTime", "name": "courseName"}
-	temp1 := gin.H{"id": 10002, "status": 2, "academy": gin.H{"id": 10002, "name": "academyName"}, "credit": 99, "total": 11, "period": 11, "createTime": "createTime", "updateTime": "createTime", "name": "courseName"}
+	temp := gin.H{"id": 10001, "status": 1, "academy": gin.H{"id": 1, "name": utils.AcademyMap[1]}, "credit": 2, "total": 100, "period": 36, "createTime": "2022-03-01", "updateTime": "2022-03-01", "name": "机器学习"}
+	temp1 := gin.H{"id": 10002, "status": 2, "academy": gin.H{"id": 1, "name": utils.AcademyMap[1]}, "credit": 3, "total": 100, "period": 36, "createTime": "2022-03-01", "updateTime": "2022-03-01", "name": "人工智能"}
+	temp2 := gin.H{"id": 10003, "status": 1, "academy": gin.H{"id": 1, "name": utils.AcademyMap[1]}, "credit": 2, "total": 200, "period": 36, "createTime": "2022-03-01", "updateTime": "2022-03-01", "name": "大数据"}
+	temp3 := gin.H{"id": 10004, "status": 1, "academy": gin.H{"id": 1, "name": utils.AcademyMap[1]}, "credit": 1, "total": 120, "period": 18, "createTime": "2022-04-01", "updateTime": "2022-04-01", "name": "云计算"}
+	temp4 := gin.H{"id": 10005, "status": 2, "academy": gin.H{"id": 1, "name": utils.AcademyMap[1]}, "credit": 2, "total": 100, "period": 36, "createTime": "2022-03-01", "updateTime": "2022-03-01", "name": "数据结构"}
 	c.JSON(200, gin.H{
 		"list": []gin.H{
 			temp,
 			temp1,
+			temp2,
+			temp3,
+			temp4,
 		},
-		"total": 2,
+		"total": 5,
 	})
 }
 

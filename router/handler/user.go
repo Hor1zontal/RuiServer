@@ -54,31 +54,87 @@ func WebUser(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"list": []gin.H{
 			{
-				"name":     "彭欣怡", //
-				"id":       10009, //1-超级管理员 2--学生
-				"sex":      "女",
+				"name":     "test1", //
+				"id":       10001,   //1-超级管理员 2--学生
+				"sex":      "男",
 				"phoneNum": "1175952275@qq.com",
 				"enabled":  true,
-				"avatar":   "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png",
-			},
-			{
-				"name":     "邓飞",  //
-				"id":       10010, //1-超级管理员 2--学生
-				"sex":      "男",
-				"phoneNum": "dengfei@qq.com",
-				"enabled":  true,
-				"avatar":   "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png",
+				"avatar":   "https://joeschmoe.io/api/v1/random",
 			},
 			{
 				"name":     "test2", //
+				"id":       10002,   //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "1175952275@qq.com",
+				"enabled":  true,
+				"avatar":   "https://joeschmoe.io/api/v1/random",
+			},
+			{
+				"name":     "test3", //
+				"id":       10003,   //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "1175952275@qq.com",
+				"enabled":  true,
+				"avatar":   "https://joeschmoe.io/api/v1/random",
+			},
+			{
+				"name":     "test4", //
+				"id":       10004,   //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "1175952275@qq.com",
+				"enabled":  true,
+				"avatar":   "https://joeschmoe.io/api/v1/random",
+			},
+			{
+				"name":     "test5", //
+				"id":       10005,   //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "1175952275@qq.com",
+				"enabled":  true,
+				"avatar":   "https://joeschmoe.io/api/v1/random",
+			},
+			{
+				"name":     "test6", //
+				"id":       10006,   //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "1175952275@qq.com",
+				"enabled":  true,
+				"avatar":   "https://joeschmoe.io/api/v1/random",
+			},
+			{
+				"name":     "test7", //
+				"id":       10007,   //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "1175952275@qq.com",
+				"enabled":  true,
+				"avatar":   "https://joeschmoe.io/api/v1/random",
+			},
+			{
+				"name":     "test8", //
 				"id":       10008,   //1-超级管理员 2--学生
 				"sex":      "男",
-				"phoneNum": "222222222@qq.com",
+				"phoneNum": "1175952275@qq.com",
 				"enabled":  true,
-				"avatar":   "https://cdn.jsdelivr.net/gh/Hor1zontal/BLOG_IMG/2022/3/202204252141295.png",
+				"avatar":   "https://joeschmoe.io/api/v1/random",
+			},
+			{
+				"name":     "test9", //
+				"id":       10009,   //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "1175952275@qq.com",
+				"enabled":  true,
+				"avatar":   "https://joeschmoe.io/api/v1/random",
+			},
+			{
+				"name":     "test10", //
+				"id":       10010,    //1-超级管理员 2--学生
+				"sex":      "男",
+				"phoneNum": "1175952275@qq.com",
+				"enabled":  true,
+				"avatar":   "https://joeschmoe.io/api/v1/random",
 			},
 		},
-		"total": 3,
+		"total": 10,
 	})
 }
 
@@ -146,38 +202,52 @@ func WebStudentInfo(c *gin.Context) {
 }
 
 func WebAcademyInitAll(c *gin.Context) {
-	temp := gin.H{"id": 10001, "name": "academyName"}
-	temp1 := gin.H{"id": 10002, "name": "academyName"}
-	c.JSON(200, []gin.H{
-		temp,
-		temp1,
-	})
+	var res []gin.H
+	for id, name := range utils.AcademyMap {
+		res = append(res, gin.H{"id": id, "name": name})
+	}
+	//temp := gin.H{"id": 10001, "name": "academyName"}
+	//temp1 := gin.H{"id": 10002, "name": "academyName"}
+	c.JSON(200, res)
 }
 
 func WebMajorInitAll(c *gin.Context) {
-	temp := gin.H{"id": 10001, "name": "majorName"}
-	temp1 := gin.H{"id": 10002, "name": "majorName"}
-	c.JSON(200, []gin.H{
-		temp,
-		temp1,
-	})
+	//var res []gin.H
+	//for id, name := range utils.AcademyIDMajorMap {
+	//	res = append(res, gin.H{"id": id, "name": name})
+	//}
+	//temp := gin.H{"id": 10001, "name": "majorName"}
+	//temp1 := gin.H{"id": 10002, "name": "majorName"}
+	//c.JSON(200, []gin.H{
+	//	temp,
+	//	temp1,
+	//})
 }
 
 func WebClassGetByMajorId(c *gin.Context) {
-	temp := gin.H{"id": 10001, "name": "className"}
-	temp1 := gin.H{"id": 10002, "name": "className"}
-	c.JSON(200, []gin.H{
-		temp,
-		temp1,
-	})
+	var res []gin.H
+	for id, name := range utils.ClassesMap {
+		res = append(res, gin.H{"id": id, "name": name})
+	}
+	//temp := gin.H{"id": 10001, "name": "className"}
+	//temp1 := gin.H{"id": 10002, "name": "className"}
+	c.JSON(200, res)
 
 }
 
+type ReqMajorGetByAcademyId struct {
+	ID int `form:"academyId"`
+}
+
 func WebMajorGetByAcademyId(c *gin.Context) {
-	temp := gin.H{"id": 10001, "name": "majorName"}
-	temp1 := gin.H{"id": 10002, "name": "majorName"}
-	c.JSON(200, []gin.H{
-		temp,
-		temp1,
-	})
+	req := &ReqMajorGetByAcademyId{}
+	helper.CheckReq(c, req)
+	//temp := gin.H{"id": 10001, "name": "majorName"}
+	//temp1 := gin.H{"id": 10002, "name": "majorName"}
+	var res []gin.H
+	//id, _ := strconv.Atoi(req.ID)
+	for id, name := range utils.AcademyIDMajorMap[req.ID] {
+		res = append(res, gin.H{"id": id, "name": name})
+	}
+	c.JSON(200, res)
 }
